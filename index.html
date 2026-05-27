@@ -104,7 +104,10 @@
       -webkit-font-smoothing: antialiased;
       text-rendering: optimizeLegibility;
 
-      animation: fadeIn 0.8s ease;
+      overflow-x: hidden;
+
+      animation:
+        fadeIn 1.2s cubic-bezier(0.22,1,0.36,1);
     }
 
     body::after {
@@ -133,6 +136,18 @@
       text-align: center;
     }
 
+    .logo-float {
+      display: flex;
+      justify-content: center;
+
+      will-change: transform;
+
+      transform: translateZ(0);
+
+      animation:
+        float 7s ease-in-out infinite;
+    }
+
     .logo {
       width: 160px;
 
@@ -142,13 +157,16 @@
 
       opacity: 0;
 
-      transform: translateY(8px);
+      transform:
+        translateY(8px)
+        translateZ(0);
 
-      will-change: transform, opacity;
+      will-change:
+        transform,
+        opacity;
 
       animation:
-        reveal 1s cubic-bezier(0.22,1,0.36,1) forwards,
-        float 7s ease-in-out infinite 1s;
+        reveal 1s cubic-bezier(0.22,1,0.36,1) forwards;
     }
 
     .sr-only {
@@ -386,7 +404,10 @@
 
       to {
         opacity: 1;
-        transform: translateY(0);
+
+        transform:
+          translateY(0)
+          translateZ(0);
       }
     }
 
@@ -401,11 +422,15 @@
 
       0%,
       100% {
-        transform: translateY(0);
+        transform:
+          translateY(0)
+          translateZ(0);
       }
 
       50% {
-        transform: translateY(-3px);
+        transform:
+          translateY(-4px)
+          translateZ(0);
       }
     }
 
@@ -461,10 +486,14 @@
   <main class="container">
 
     <!-- logo -->
-    <img
-      src="logo.png"
-      alt="hundred.one logo"
-      class="logo" />
+    <div class="logo-float">
+
+      <img
+        src="logo.png"
+        alt="hundred.one logo"
+        class="logo" />
+
+    </div>
 
     <!-- SEO heading -->
     <h1 class="sr-only">
@@ -485,7 +514,6 @@
 
     <form id="contactForm">
 
-      <!-- email -->
       <label for="email" class="sr-only">
         Email
       </label>
@@ -498,7 +526,6 @@
         autocomplete="email"
         required />
 
-      <!-- offer -->
       <label for="offer" class="sr-only">
         Offer
       </label>
@@ -509,14 +536,12 @@
         placeholder="Offer or inquiry"
         required></textarea>
 
-      <!-- button -->
       <button
         type="submit"
         id="submitButton">
         Inquire
       </button>
 
-      <!-- status -->
       <div
         class="form-status"
         id="formStatus"

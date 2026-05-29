@@ -54,7 +54,7 @@
   <link
     rel="icon"
     type="image/svg+xml"
-    href="favicon.svg" />
+    href="logo.svg" />
 
   <style>
 
@@ -150,10 +150,11 @@
 
     .logo {
       width: 160px;
+      height: auto;
 
       display: block;
 
-      margin: 0 auto 24px;
+      margin: 0 auto 12px;
 
       opacity: 0;
 
@@ -167,6 +168,27 @@
 
       animation:
         reveal 1s cubic-bezier(0.22,1,0.36,1) forwards;
+    }
+
+    .domain-name {
+      margin-top: -2px;
+      margin-bottom: 28px;
+
+      font-size: 18px;
+      font-weight: 600;
+
+      letter-spacing: -0.03em;
+
+      color: rgba(255,255,255,0.92);
+
+      opacity: 0;
+
+      transform: translateY(6px);
+
+      animation:
+        reveal 1s ease forwards;
+
+      animation-delay: 0.08s;
     }
 
     .sr-only {
@@ -256,26 +278,6 @@
       animation-delay: 0.55s;
     }
 
-    form::before {
-      content: "";
-
-      position: absolute;
-      inset: -1px;
-
-      border-radius: 18px;
-
-      pointer-events: none;
-
-      opacity: 0.4;
-
-      background:
-        radial-gradient(
-          circle at top,
-          rgba(255,255,255,0.05),
-          transparent 65%
-        );
-    }
-
     input,
     textarea {
       width: 100%;
@@ -358,15 +360,6 @@
         0 8px 30px rgba(255,255,255,0.06);
     }
 
-    button:active {
-      transform: translateY(0);
-    }
-
-    button:disabled {
-      opacity: 0.7;
-      cursor: default;
-    }
-
     .form-status {
       min-height: 18px;
 
@@ -375,13 +368,6 @@
       color: #7d7d7d;
 
       font-size: 13px;
-      line-height: 1.4;
-
-      text-align: center;
-
-      transition:
-        opacity 0.3s ease,
-        transform 0.3s ease;
     }
 
     .footer {
@@ -401,10 +387,8 @@
     }
 
     @keyframes reveal {
-
       to {
         opacity: 1;
-
         transform:
           translateY(0)
           translateZ(0);
@@ -412,16 +396,13 @@
     }
 
     @keyframes fadeOnly {
-
       to {
         opacity: 1;
       }
     }
 
     @keyframes float {
-
-      0%,
-      100% {
+      0%, 100% {
         transform:
           translateY(0)
           translateZ(0);
@@ -435,7 +416,6 @@
     }
 
     @keyframes fadeIn {
-
       from {
         opacity: 0;
       }
@@ -459,21 +439,14 @@
         font-size: 18px;
       }
 
+      .domain-name {
+        font-size: 16px;
+      }
+
       input,
       textarea,
       button {
         font-size: 16px;
-      }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-
-      *,
-      *::before,
-      *::after {
-        animation: none !important;
-        transition: none !important;
-        scroll-behavior: auto !important;
       }
     }
 
@@ -486,13 +459,18 @@
   <main class="container">
 
     <!-- logo -->
-   <div class="logo-float">
+    <div class="logo-float">
 
-  <img
-    src="logo.svg"
-    alt="hundred.one logo"
-    class="logo" />
+      <img
+        src="logo.svg"
+        alt="hundred.one logo"
+        class="logo" />
 
+    </div>
+
+    <!-- domain -->
+    <div class="domain-name">
+      hundred.one
     </div>
 
     <!-- SEO heading -->
@@ -514,10 +492,6 @@
 
     <form id="contactForm">
 
-      <label for="email" class="sr-only">
-        Email
-      </label>
-
       <input
         id="email"
         type="email"
@@ -525,10 +499,6 @@
         placeholder="Your email"
         autocomplete="email"
         required />
-
-      <label for="offer" class="sr-only">
-        Offer
-      </label>
 
       <textarea
         id="offer"
@@ -554,106 +524,6 @@
     </div>
 
   </main>
-
-  <script>
-
-    const form =
-      document.getElementById('contactForm');
-
-    const submitButton =
-      document.getElementById('submitButton');
-
-    const formStatus =
-      document.getElementById('formStatus');
-
-    form.addEventListener('submit', async (e) => {
-
-      e.preventDefault();
-
-      submitButton.disabled = true;
-
-      submitButton.textContent =
-        'Sending...';
-
-      formStatus.style.opacity = '0';
-      formStatus.style.transform = 'translateY(4px)';
-
-      formStatus.textContent = '';
-
-      const formData =
-        new FormData(form);
-
-      try {
-
-        const response = await fetch(
-          'https://formspree.io/f/xaqklgeg',
-          {
-            method: 'POST',
-            body: formData,
-            headers: {
-              'Accept': 'application/json'
-            }
-          }
-        );
-
-        if (response.ok) {
-
-          form.reset();
-
-          formStatus.textContent =
-            'Inquiry submitted successfully.';
-
-          requestAnimationFrame(() => {
-
-            formStatus.style.opacity = '1';
-            formStatus.style.transform = 'translateY(0)';
-          });
-
-          submitButton.textContent =
-            'Sent';
-
-          setTimeout(() => {
-
-            submitButton.disabled = false;
-
-            submitButton.textContent =
-              'Inquire';
-
-            formStatus.style.opacity = '0';
-
-            setTimeout(() => {
-
-              formStatus.textContent = '';
-
-            }, 300);
-
-          }, 2200);
-
-        } else {
-
-          throw new Error();
-        }
-
-      } catch (error) {
-
-        formStatus.textContent =
-          'Unable to submit inquiry.';
-
-        requestAnimationFrame(() => {
-
-          formStatus.style.opacity = '1';
-          formStatus.style.transform = 'translateY(0)';
-        });
-
-        submitButton.disabled = false;
-
-        submitButton.textContent =
-          'Inquire';
-      }
-
-    });
-
-  </script>
 
 </body>
 </html>
